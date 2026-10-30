@@ -40,7 +40,7 @@
  .layout{display:block;width:min(820px,calc(100% - 40px));max-width:none;margin:0 auto;padding:26px 0 0}
  .sidebar{position:static;top:auto;margin:0 0 24px;padding:0;background:transparent;border:0}
  .sidebar>.eyebrow{display:block;margin:0 0 11px;font-size:9px}
- .navlist{display:grid;grid-template-columns:repeat(11,minmax(0,1fr));gap:5px;overflow:visible;padding:0}
+ .navlist{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:5px;overflow:visible;padding:0}
  .navitem{display:flex;width:100%;min-width:0;justify-content:center;align-items:center;border:1px solid #ffffff24;border-radius:2px;padding:10px 3px;background:#0c1013b8}
  .navitem .navtext{display:none}.navnum{min-width:0;font-size:13px}
  .navitem.active{border:1px solid #bb777c;background:#83323b6b}.navitem.done{border-color:#a9c0aa45}
@@ -68,3 +68,7 @@
  .navlist{display:flex;gap:4px;overflow-x:auto;padding-bottom:5px;scrollbar-width:thin}
  .navitem{flex:0 0 43px;width:43px;min-width:43px;padding:11px 1px}
 }
+
+.field-expand{align-self:flex-end;font-size:11px;padding:4px 0;min-height:28px}.field textarea.expanded{height:50vh;min-height:220px;max-height:70vh}.long-text{white-space:pre-wrap;overflow-wrap:anywhere}
+
+.artwork-stage h3{margin-top:28px}.art-upload{display:block;border:1px dashed #c6ae8366;padding:16px;font-size:13px;line-height:1.7}.art-upload input{display:block;width:100%;margin-top:10px;font-size:12px;color:var(--dim)}.art-preview{display:flex;gap:18px;align-items:center;margin:20px 0}.art-preview img{max-width:150px;max-height:210px;object-fit:contain;border:1px solid var(--line)}.art-preview p{overflow-wrap:anywhere}.art-preview>div{min-width:0}.art-preview .art-background{opacity:.65}#art-prompt-text{min-height:240px;line-height:1.6;font-size:12px}@media(max-width:520px){.art-preview{align-items:flex-start;flex-direction:column}}

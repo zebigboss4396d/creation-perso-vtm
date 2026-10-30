@@ -10,51 +10,9 @@ Pour vérifier localement : `python3 -m http.server 8000`, puis ouvrir http://lo
 
 ---
 
-# Crée ton vampire — Chicago 1940
-
-Assistant de création de personnage Vampire : La Mascarade V5 en français. Le fond de Vicky et de son reflet vampirique est utilisé sur tout le site. Le lien d’aide au choix du clan mène à https://zebigboss4396d.github.io/personnalit--vtm/.
-
-## Démarrage local
-
-Aucune compilation n’est nécessaire. Depuis la racine du projet :
-
-```sh
-python3 -m http.server 8000 --directory .
-```
-
-Ouvrir http://localhost:8000. Utiliser un serveur HTTP plutôt qu’ouvrir directement index.html pour permettre le chargement des modules et des polices du PDF.
-
-## Mettre sur GitHub et publier avec GitHub Pages
-
-1. Décompresser cette archive et déposer son contenu à la racine d’un dépôt GitHub.
-2. Dans **Settings → Pages → Build and deployment → Source**, choisir **GitHub Actions**.
-3. Exécuter le workflow **Déployer sur GitHub Pages** depuis l’onglet **Actions**, ou pousser un changement sur la branche par défaut.
-
-Le workflow fourni publie uniquement `./`. Les chemins relatifs fonctionnent aussi sous l’adresse d’un dépôt GitHub Pages. La visibilité du site dépend des réglages GitHub ; l’accès privé de l’ancien hébergement n’est pas transféré.
-
-## Vérifier le code
-
-Node.js 20 ou plus récent :
-
-```sh
-npm test
-```
-
-Les tests PDF nécessitent aussi les dépendances npm et Python avec PyMuPDF :
-
-```sh
-npm ci
-python3 -m pip install PyMuPDF
-npm run test:dossier
-```
-
-Les bibliothèques et polices nécessaires au site sont déjà embarquées dans `./`. Aucun livre de règles PDF, dossier de joueur, historique Git ou identifiant de l’ancien hébergeur n’est inclus.
-
----
-
 # Les premières nuits — Chicago 1940
 
-Assistant statique, en français, pour créer un infant de Vampire : La Mascarade V5 à partir du livre de base fourni. Onze écrans, un fond commun, import/export JSON, sauvegarde dans le navigateur et génération d’un dossier récapitulatif PDF.
+Assistant statique, en français, pour créer un infant de Vampire : La Mascarade V5 à partir du livre de base fourni. Douze écrans, un fond commun, import/export JSON, sauvegarde dans le navigateur et génération d’un dossier récapitulatif PDF.
 
 ## Fonctionnement
 
@@ -62,7 +20,7 @@ Les fichiers publiés sont dans `./`. HTML, CSS et modules JavaScript natifs. pd
 
 ## Validation
 
-`node tests.mjs` teste les règles de répartition, les pouvoirs, les budgets, les incompatibilités, les imports, les exports rechargés, les onze rendus HTML et l'impression via un environnement DOM minimal. La page Se nourrir, la reprise après rechargement, le changement de style, les pouvoirs de niveau 3 et la répartition Osiris ont aussi été vérifiés dans le navigateur d’aperçu.
+`node tests.mjs` teste les règles de répartition, les pouvoirs, les budgets, les incompatibilités, les imports, les exports rechargés, les douze rendus HTML et l'impression via un environnement DOM minimal. La page Se nourrir, la reprise après rechargement, le changement de style, les pouvoirs de niveau 3 et la répartition Osiris ont aussi été vérifiés dans le navigateur d’aperçu.
 
 `node dossier-tests.mjs` génère cinq dossiers de contrôle (complet, textes longs, Lamproie, Nosferatu, brouillon), puis vérifie avec PyMuPDF les données, les effets de prédation, les scores représentés et les débordements. Définir `DOSSIER_QA_DIR` pour conserver les fichiers de contrôle. Les rendus ont également été inspectés visuellement.
 
@@ -74,7 +32,7 @@ Ce parcours utilise les sept clans, des infants de 12e ou 13e génération, une 
 
 ## JSON
 
-La sauvegarde native comporte `kind: "vtm-v5-character"` et `schemaVersion: 2`. Elle restaure tous les choix, dont `predator`. Les sauvegardes de version 1 sont migrées en conservant les choix et en décalant les indices des étapes après les disciplines. Les bonus de prédation sont recalculés ; les points de base restent dans leurs champs d’origine. L'import d'un background externe reconnaît des alias usuels, affiche un aperçu avant remplacement et conserve l'objet original dans `originalBackground`. Le format du site de background (`fields`, `convictions`) est reconnu explicitement pour l’apparence (silhouette, tenue, singularité), les possessions (équipement et objet précieux) et les couples Conviction/Attache. Les anciennes sauvegardes comportant le dossier original récupèrent ces champs lorsqu’ils sont vides, sans écraser les corrections du joueur.
+La sauvegarde native comporte `kind: "vtm-v5-character"` et `schemaVersion: 3`. Elle restaure tous les choix, dont `predator`. Les sauvegardes de version 1 sont migrées en conservant les choix et en décalant les indices des étapes après les disciplines. Les bonus de prédation sont recalculés ; les points de base restent dans leurs champs d’origine. L'import d'un background externe reconnaît des alias usuels, affiche un aperçu avant remplacement et conserve l'objet original dans `originalBackground`. Le format du site de background (`fields`, `convictions`) est reconnu explicitement pour l’apparence (silhouette, tenue, singularité), les possessions (équipement et objet précieux) et les couples Conviction/Attache. Les anciennes sauvegardes comportant le dossier original récupèrent ces champs lorsqu’ils sont vides, sans écraser les corrections du joueur.
 
 Les champs non reconnus doivent être reportés manuellement. Les problèmes de quota ou d'accès au stockage local sont signalés ; l'export JSON reste disponible. Le JSON ne contient aucun secret de connexion.
 
@@ -95,3 +53,17 @@ Vampire : La Mascarade et les marques associées appartiennent à leurs ayants d
 ## Fond commun du site
 
 `./assets/vicky-miroir.webp` reprend l’illustration validée : Vicky humaine étonnée à gauche, son reflet vampirique pâle et confiant dans un miroir à droite, avec une zone sombre centrale. Ce fond couvre toutes les étapes. Le formulaire et les étapes sont centrés ; le cadrage sur grand écran conserve toute la largeur de l’image. Sur mobile, l’illustration apparaît en tête du parcours pour garder les visages visibles et le formulaire lisible. Les anciennes illustrations sont conservées dans les sources, sans alternance automatique.
+
+## Le Masque et la lecture des textes
+
+Une étape distincte avant le récapitulatif décrit la couverture mortelle : situation actuelle, nom, activité, absences, documents, soutiens et failles. Les précisions sont facultatives. L’historique Masque reste acheté parmi les avantages ; cette page n’ajoute aucun point. Les anciens JSON v1 et v2 sont migrés en v3, y compris les indices des étapes, sans perdre `night.mask`. Les nouveaux champs sont dans `mask` et sont repris dans le dossier PDF et le récapitulatif imprimé.
+
+Les Convictions et leurs liens avec les Attaches sont des zones de texte sur toute la largeur. Les champs longs comportent un bouton Agrandir / Réduire et restent redimensionnables à la souris.
+
+## Dossier illustré personnalisé
+
+La dernière étape accepte le portrait déjà créé du joueur (JPEG, PNG ou WebP, 10 Mo maximum). L’image est réduite localement à 1600 pixels maximum et convertie en JPEG pour la sauvegarde. Le portrait et le fond sont enregistrés dans `artwork` dans le JSON, restaurés à l’import et conservés dans la sauvegarde locale si le quota le permet. Aucun fichier n’est envoyé à un serveur par l’import d’image.
+
+Deux prompts autonomes sont proposés : dossier PDF complet ou illustration seule. Ils décrivent explicitement une scène verticale A4, humain étonné à gauche et reflet vampirique confiant dans un miroir à droite, avec les traits du portrait joint et les informations du personnage. Le prompt complet contient les données de création et les valeurs finales calculées. L’utilisateur copie le prompt puis joint séparément son portrait à son IA. Le site ne lance pas la génération IA.
+
+L’illustration obtenue peut être réimportée pour le PDF généré par le site. Elle est placée sur chaque page A4 à 13 % d’opacité, sans étirement ; le texte reste opaque. Sans illustration importée, le PDF utilise le papier ivoire. Vicky reste uniquement le décor horizontal du site. Changer de portrait efface l’ancienne illustration du dossier. Les JSON v1 à v3 sans `artwork` restent compatibles.
