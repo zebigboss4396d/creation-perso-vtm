@@ -62,12 +62,6 @@ Les Convictions et leurs liens avec les Attaches sont des zones de texte sur tou
 
 ## Dossier illustré personnalisé
 
-La dernière étape accepte le portrait déjà créé du joueur (JPEG, PNG ou WebP, 10 Mo maximum). L’image est réduite localement à 1600 pixels maximum et convertie en JPEG pour la sauvegarde. Le portrait et le fond sont enregistrés dans `artwork` dans le JSON, restaurés à l’import et conservés dans la sauvegarde locale si le quota le permet. Aucun fichier n’est envoyé à un serveur par l’import d’image.
+Le parcours final comporte deux écrans : Vérifier puis Créer le PDF. Le joueur copie le prompt personnalisé puis joint directement son portrait déjà créé dans sa conversation avec l’IA. Aucun portrait n’est demandé sur le site et le prompt ne prétend pas contenir l’image. Il décrit la composition A4, la peau presque blanche et livide du reflet et le fond à 20 % d’opacité.
 
-Deux prompts autonomes sont proposés : dossier PDF complet ou illustration seule. Ils décrivent explicitement une scène verticale A4, humain étonné à gauche et reflet vampirique confiant dans un miroir à droite, avec les traits du portrait joint et les informations du personnage. Le prompt complet contient les données de création et les valeurs finales calculées. L’utilisateur copie le prompt puis joint séparément son portrait à son IA. Le site ne lance pas la génération IA.
-
-L’illustration obtenue peut être réimportée pour le PDF généré par le site. Elle est placée sur chaque page A4 à 20 % d’opacité, sans étirement ; le texte reste opaque. Sans illustration importée, le PDF utilise le papier ivoire. Vicky reste uniquement le décor horizontal du site. Changer de portrait efface l’ancienne illustration du dossier. Les JSON v1 à v3 sans `artwork` restent compatibles.
-
-## Parcours final
-
-La dernière page comporte trois écrans successifs : Vérifier, Portrait, Créer le PDF. La méthode principale consiste à récupérer le prompt du dossier et le portrait, puis à les transmettre ensemble à l’IA et télécharger le PDF produit. La méthode locale (création du fond seul, réimport, export PDF du site) est regroupée dans une rubrique alternative repliée. Le fond est demandé et appliqué à 20 % d’opacité.
+Une méthode alternative repliée permet de créer uniquement l’illustration avec l’IA, puis de l’importer sur le site pour générer le PDF local. Cet import de fond est facultatif et indépendant du portrait. L’illustration est enregistrée dans le JSON et le stockage local si le quota le permet. Les anciens JSON contenant un portrait restent compatibles, mais celui-ci n’est plus utilisé par l’interface ni les prompts. Sans fond importé, le PDF garde son papier ivoire.
