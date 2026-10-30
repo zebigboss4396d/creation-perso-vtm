@@ -1,0 +1,14 @@
+{
+  "name": "premieres-nuits",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node tests.mjs",
+    "test:dossier": "node dossier-tests.mjs"
+  },
+  "dependencies": {
+    "pdf-lib": "1.17.1",
+    "@pdf-lib/fontkit": "1.1.1"
+  }
+}
