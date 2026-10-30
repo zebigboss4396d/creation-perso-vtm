@@ -1,3 +1,15 @@
+# Installation directe sur GitHub Pages
+
+Décompressez l’archive et déposez **son contenu** à la racine du dépôt : `index.html`, `style.css`, `app.js`, `assets/` et `vendor/` doivent être côte à côte. Ne déposez pas seulement le ZIP.
+
+Dans **Settings → Pages**, choisissez **Deploy from a branch**, votre branche principale et **/(root)**. Cette version contient une vraie page d’accueil à la racine et ne nécessite aucune compilation.
+
+Le workflow GitHub Actions inclus est une autre méthode si vous préférez choisir **GitHub Actions** comme source.
+
+Pour vérifier localement : `python3 -m http.server 8000`, puis ouvrir http://localhost:8000.
+
+---
+
 # Crée ton vampire — Chicago 1940
 
 Assistant de création de personnage Vampire : La Mascarade V5 en français. Le fond de Vicky et de son reflet vampirique est utilisé sur tout le site. Le lien d’aide au choix du clan mène à https://zebigboss4396d.github.io/personnalit--vtm/.
@@ -7,7 +19,7 @@ Assistant de création de personnage Vampire : La Mascarade V5 en français. Le 
 Aucune compilation n’est nécessaire. Depuis la racine du projet :
 
 ```sh
-python3 -m http.server 8000 --directory dist
+python3 -m http.server 8000 --directory .
 ```
 
 Ouvrir http://localhost:8000. Utiliser un serveur HTTP plutôt qu’ouvrir directement index.html pour permettre le chargement des modules et des polices du PDF.
@@ -18,7 +30,7 @@ Ouvrir http://localhost:8000. Utiliser un serveur HTTP plutôt qu’ouvrir direc
 2. Dans **Settings → Pages → Build and deployment → Source**, choisir **GitHub Actions**.
 3. Exécuter le workflow **Déployer sur GitHub Pages** depuis l’onglet **Actions**, ou pousser un changement sur la branche par défaut.
 
-Le workflow fourni publie uniquement `dist/`. Les chemins relatifs fonctionnent aussi sous l’adresse d’un dépôt GitHub Pages. La visibilité du site dépend des réglages GitHub ; l’accès privé de l’ancien hébergement n’est pas transféré.
+Le workflow fourni publie uniquement `./`. Les chemins relatifs fonctionnent aussi sous l’adresse d’un dépôt GitHub Pages. La visibilité du site dépend des réglages GitHub ; l’accès privé de l’ancien hébergement n’est pas transféré.
 
 ## Vérifier le code
 
@@ -36,7 +48,7 @@ python3 -m pip install PyMuPDF
 npm run test:dossier
 ```
 
-Les bibliothèques et polices nécessaires au site sont déjà embarquées dans `dist/`. Aucun livre de règles PDF, dossier de joueur, historique Git ou identifiant de l’ancien hébergeur n’est inclus.
+Les bibliothèques et polices nécessaires au site sont déjà embarquées dans `./`. Aucun livre de règles PDF, dossier de joueur, historique Git ou identifiant de l’ancien hébergeur n’est inclus.
 
 ---
 
@@ -46,7 +58,7 @@ Assistant statique, en français, pour créer un infant de Vampire : La Mascarad
 
 ## Fonctionnement
 
-Les fichiers publiés sont dans `dist/`. HTML, CSS et modules JavaScript natifs. pdf-lib 1.17.1 et fontkit 1.1.1 sont fournis localement et chargés uniquement pour le dossier PDF. Aucune donnée du personnage n’est transmise à un service de génération. L'application conserve le personnage uniquement sur l'appareil et dans les fichiers JSON téléchargés. L'hébergement est privé par défaut.
+Les fichiers publiés sont dans `./`. HTML, CSS et modules JavaScript natifs. pdf-lib 1.17.1 et fontkit 1.1.1 sont fournis localement et chargés uniquement pour le dossier PDF. Aucune donnée du personnage n’est transmise à un service de génération. L'application conserve le personnage uniquement sur l'appareil et dans les fichiers JSON téléchargés. L'hébergement est privé par défaut.
 
 ## Validation
 
@@ -70,7 +82,7 @@ Les champs non reconnus doivent être reportés manuellement. Les problèmes de 
 
 « Télécharger le dossier PDF » produit un document A4 autonome, dans l’esprit graphique de la fiche fournie : papier ivoire, cadre fin, titres serif et rouge sombre. Il comporte six grandes rubriques : identité ; caractéristiques ; sang et pouvoirs ; prédation et ressources ; liens et objectifs ; existence nocturne. Leur longueur s’adapte au contenu, sans couper les textes. Les avantages indiquent leur provenance et les scores comprennent les effets de prédation. Les points à compléter sont regroupés en fin de brouillon. Le PDF officiel n’est ni rempli ni distribué par cette fonction. La sauvegarde JSON et l’impression HTML du récapitulatif restent disponibles.
 
-La génération et la pagination s’exécutent localement dans le navigateur, avec DejaVu Sans et DejaVu Serif embarquées. Un caractère absent des polices donne une erreur explicite. Les deux polices et leurs licences sont incluses dans `dist/assets/pdf/` ; le code de génération est `dist/dossier-pdf.js`.
+La génération et la pagination s’exécutent localement dans le navigateur, avec DejaVu Sans et DejaVu Serif embarquées. Un caractère absent des polices donne une erreur explicite. Les deux polices et leurs licences sont incluses dans `./assets/pdf/` ; le code de génération est `./dossier-pdf.js`.
 
 ## Droits
 
@@ -78,8 +90,8 @@ Vampire : La Mascarade et les marques associées appartiennent à leurs ayants d
 
 ## Illustration de Se nourrir
 
-`dist/assets/fond-11.webp` : image générée pour ce projet avec l’outil intégré de génération d’images. Brief : Chicago 1940, ruelle humide derrière un club de jazz, présence vampirique discrète, noir gothique et lueurs rouge sombre, centre peu chargé pour les formulaires, sans texte ni technologie contemporaine.
+`./assets/fond-11.webp` : image générée pour ce projet avec l’outil intégré de génération d’images. Brief : Chicago 1940, ruelle humide derrière un club de jazz, présence vampirique discrète, noir gothique et lueurs rouge sombre, centre peu chargé pour les formulaires, sans texte ni technologie contemporaine.
 
 ## Fond commun du site
 
-`dist/assets/vicky-miroir.webp` reprend l’illustration validée : Vicky humaine étonnée à gauche, son reflet vampirique pâle et confiant dans un miroir à droite, avec une zone sombre centrale. Ce fond couvre toutes les étapes. Le formulaire et les étapes sont centrés ; le cadrage sur grand écran conserve toute la largeur de l’image. Sur mobile, l’illustration apparaît en tête du parcours pour garder les visages visibles et le formulaire lisible. Les anciennes illustrations sont conservées dans les sources, sans alternance automatique.
+`./assets/vicky-miroir.webp` reprend l’illustration validée : Vicky humaine étonnée à gauche, son reflet vampirique pâle et confiant dans un miroir à droite, avec une zone sombre centrale. Ce fond couvre toutes les étapes. Le formulaire et les étapes sont centrés ; le cadrage sur grand écran conserve toute la largeur de l’image. Sur mobile, l’illustration apparaît en tête du parcours pour garder les visages visibles et le formulaire lisible. Les anciennes illustrations sont conservées dans les sources, sans alternance automatique.
