@@ -66,4 +66,8 @@ La dernière étape accepte le portrait déjà créé du joueur (JPEG, PNG ou We
 
 Deux prompts autonomes sont proposés : dossier PDF complet ou illustration seule. Ils décrivent explicitement une scène verticale A4, humain étonné à gauche et reflet vampirique confiant dans un miroir à droite, avec les traits du portrait joint et les informations du personnage. Le prompt complet contient les données de création et les valeurs finales calculées. L’utilisateur copie le prompt puis joint séparément son portrait à son IA. Le site ne lance pas la génération IA.
 
-L’illustration obtenue peut être réimportée pour le PDF généré par le site. Elle est placée sur chaque page A4 à 13 % d’opacité, sans étirement ; le texte reste opaque. Sans illustration importée, le PDF utilise le papier ivoire. Vicky reste uniquement le décor horizontal du site. Changer de portrait efface l’ancienne illustration du dossier. Les JSON v1 à v3 sans `artwork` restent compatibles.
+L’illustration obtenue peut être réimportée pour le PDF généré par le site. Elle est placée sur chaque page A4 à 20 % d’opacité, sans étirement ; le texte reste opaque. Sans illustration importée, le PDF utilise le papier ivoire. Vicky reste uniquement le décor horizontal du site. Changer de portrait efface l’ancienne illustration du dossier. Les JSON v1 à v3 sans `artwork` restent compatibles.
+
+## Parcours final
+
+La dernière page comporte trois écrans successifs : Vérifier, Portrait, Créer le PDF. La méthode principale consiste à récupérer le prompt du dossier et le portrait, puis à les transmettre ensemble à l’IA et télécharger le PDF produit. La méthode locale (création du fond seul, réimport, export PDF du site) est regroupée dans une rubrique alternative repliée. Le fond est demandé et appliqué à 20 % d’opacité.
