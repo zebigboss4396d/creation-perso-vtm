@@ -12,7 +12,7 @@ Pour vérifier localement : `python3 -m http.server 8000`, puis ouvrir http://lo
 
 # Les premières nuits — Chicago 1940
 
-Assistant statique, en français, pour créer un infant de Vampire : La Mascarade V5 à partir du livre de base fourni. Douze écrans, un fond commun, import/export JSON, sauvegarde dans le navigateur et génération d’un dossier récapitulatif PDF.
+Assistant statique, en français, pour créer un infant de Vampire : La Mascarade V5 à partir du livre de base et du Guide du joueur fournis. Douze écrans, un fond commun, import/export JSON, sauvegarde dans le navigateur et génération d’un dossier récapitulatif PDF.
 
 ## Fonctionnement
 
@@ -28,7 +28,7 @@ Les fichiers publiés sont dans `./`. HTML, CSS et modules JavaScript natifs. pd
 
 Livre de base français V5 fourni, fiche officielle en deux pages et infographie « Crée ton vampire », filtrée pour exclure les suppléments. Les résumés sont des aides originales ; aucun PDF du livre n'est distribué.
 
-Ce parcours utilise les sept clans, des infants de 12e ou 13e génération, une Puissance du sang de 1, une Humanité de 7 ou 8 avec accord du conteur et aucun XP d'ancienneté. Le style de prédation est différé par défaut pour les novices. L’étape Se nourrir permet de définir avec le conteur l’un des dix styles du livre ; ses effets s’ajoutent séparément aux achats de création. Les disciplines peuvent atteindre 3, et le catalogue de pouvoirs inclut ce niveau. Lamproie porte la Puissance du sang à 2. Caitiffs, Sangs Clairs, Sagas et création collective de coterie sont hors du parcours initial. Les règles et le lore contemporains ne sont pas transposés automatiquement à 1940 : le cas du fléau Tremere appelle une décision explicite du conteur.
+Ce parcours propose les sept clans du livre de base et les sept clans du Guide du joueur, des infants de 12e ou 13e génération, une Puissance du sang de 1, une Humanité de 7 ou 8 avec accord du conteur et aucun XP d'ancienneté. Le style de prédation est différé par défaut pour les novices. L’étape Se nourrir permet de définir avec le conteur l’un des dix styles du livre ; ses effets s’ajoutent séparément aux achats de création. Les disciplines peuvent atteindre 3. Le catalogue inclut Néant 1–3 et les pouvoirs complémentaires liés aux nouveaux clans, avec leurs prérequis. Les variantes de fléau ne sont pas activées. Lamproie porte la Puissance du sang à 2. Caitiffs, Sangs Clairs, Sagas et création collective de coterie sont hors du parcours initial. Les règles et le lore contemporains ne sont pas transposés automatiquement à 1940 : le cas du fléau Tremere appelle une décision explicite du conteur.
 
 ## JSON
 
@@ -65,3 +65,15 @@ Les Convictions et leurs liens avec les Attaches sont des zones de texte sur tou
 Le parcours final comporte deux écrans : Vérifier puis Créer le PDF. Le joueur copie le prompt personnalisé puis joint directement son portrait déjà créé dans sa conversation avec l’IA. Aucun portrait n’est demandé sur le site et le prompt ne prétend pas contenir l’image. Il décrit la composition A4, la peau presque blanche et livide du reflet et le fond à 20 % d’opacité.
 
 Une méthode alternative repliée permet de créer uniquement l’illustration avec l’IA, puis de l’importer sur le site pour générer le PDF local. Cet import de fond est facultatif et indépendant du portrait. L’illustration est enregistrée dans le JSON et le stockage local si le quota le permet. Les anciens JSON contenant un portrait restent compatibles, mais celui-ci n’est plus utilisé par l’interface ni les prompts. Sans fond importé, le PDF garde son papier ivoire.
+
+## Clans du Guide du joueur
+
+La page La nouvelle existence regroupe les clans par source. S’ajoutent Banu Haqim, Hecata, Lasombra, Ravnos, Sacerdoce (Ministry), Salubrien et Tzimisce. Chaque choix montre le symbole extrait de la page d’ouverture du Guide, une présentation originale, le fléau standard avec ses circonstances et exemple, une Compulsion et les points à décider pour 1940. Hecata, Ravnos et Tzimisce exigent une précision avec le conteur dans le champ de manifestation.
+
+Les mécaniques Hecata ne présument pas un clan unifié en 1940 ; il faut définir une lignée et une convention de jeu. Le fléau Ravnos du Guide dépend aussi d’événements ultérieurs et nécessite un accord explicite. La campagne conserve la répartition initiale d’infant et les dix styles de prédation du livre de base. L’ajout des clans n’active pas tous les autres modules du Guide.
+
+Néant inclut ses pouvoirs 1 à 3, ses risques de Flétrissures, ses limites de lumière et le choix facultatif d’une cérémonie initiale de niveau 1 avec son prérequis. Les cérémonies sont conservées dans le JSON et reprises dans les récapitulatifs et le PDF. La Sorcellerie du sang de prédation est ouverte aux Banu Haqim comme aux Tremeres. Les symboles et règles restent la propriété de leurs ayants droit ; aucun PDF source n’est distribué.
+
+## Comprendre les points d’avantages et de handicaps
+
+La page 9 indique l’effet concret du niveau choisi et propose un comparatif repliable pour chaque trait à plusieurs niveaux. Les atouts à prix fixe sont explicitement signalés. Les Alliés détaillent séparément Efficacité et Fiabilité, puis leur somme. Chaque choix conserve son explication dans le panier et dans le PDF. Les explications des 67 traits sont reformulées à partir du livre de base français p. 179–194 dans `./trait-guide.js`. La valeur est le coût total du trait ; les handicaps ne donnent pas de points d’avantages supplémentaires.

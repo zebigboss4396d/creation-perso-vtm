@@ -14,7 +14,10 @@ complete.connections=[{conviction:'Ne jamais abandonner les miens',name:'Mary Wa
 complete.mask={...complete.mask,name:'Alice Couverture',activity:'Activité de couverture nocturne',documents:'DOCUMENT_MASQUE_ARCHIVES',risks:'RISQUE_MASQUE_EMPLOYEUR'};
 const long=structuredClone(complete);long.identity.appearance=('Une description détaillée comprenant vêtements, gestes, silhouette et marques particulières. ').repeat(35)+'FIN_APPARENCE';long.identity.notes=('Cette note très longue doit rester lisible et intégralement conservée dans le dossier. ').repeat(55)+'FIN_NOTES';long.connections[0].relation=('Mary rappelle à sa sœur pourquoi ses engagements ont de l’importance. ').repeat(25)+'FIN_ATTACHE';
 const lamproie=fixture('gangrel');lamproie.predator={...lamproie.predator,mode:'defined',style:'lamproie',discipline:'proteisme',specialty:'furtivite',flaw:'hai',description:'La vitae est reçue contre des services. Une faction hostile la rejette.'};lamproie.powers.proteisme=['yeux'];
-const cases={complete,long,lamproie,nosferatu:fixture('nosferatu'),blank:blank()},expected={};
+const hecata=fixture('hecata');hecata.disciplines={major:'neant',minor:'auspex'};hecata.powers={neant:['neant-cendres','neant-vision'],auspex:['sens']};hecata.ceremony='don-vie';
+const lasombra=fixture('lasombra');lasombra.disciplines={major:'neant',minor:'domination'};lasombra.powers={neant:['neant-cape','neant-vision'],domination:['brouillage']};
+const banu=fixture('banuhaqim');banu.disciplines={major:'sorcellerie',minor:'celerite'};banu.powers={sorcellerie:['gout','eteindre'],celerite:[POWERS.find(p=>p.disc==='celerite'&&p.level===1).id]};banu.ritual=RITUALS[0][0];
+const cases={complete,long,lamproie,hecata,lasombra,banu,nosferatu:fixture('nosferatu'),blank:blank()},expected={};
 for(const [name,s]of Object.entries(cases)){const result=await createDossierPdf(s,name==='blank'?{...assets,backgroundBytes:undefined}:assets);assert.ok(result.pageCount>=6);assert.ok(result.filename.endsWith('-dossier-v5.pdf'));assert.equal(result.data.stats.bloodPotency,derived(s).bloodPotency);fs.writeFileSync(path.join(dir,name+'.pdf'),result.bytes);expected[name]={draft:errors(s).flat().length>0,points:Object.values(s.attributes).reduce((a,b)=>a+b,0)+Object.values(effectiveSkills(s)).reduce((a,b)=>a+b,0)};}
 assert.equal(dossierData(complete).disciplines[0].score,3);assert.equal(dossierData(complete).skills.rue,1);assert.equal(dossierData(lamproie).stats.humanity,6);assert.equal(dossierData(lamproie).stats.bloodPotency,2);assert.ok(dossierData(cases.nosferatu).traits.some(x=>x.id==='repoussant'&&x.source==='clan'));assert.deepEqual(wrapDossierText('ABCDEFGHIJKLMNOP',{widthOfTextAtSize:t=>t.length},9,4),['ABCD','EFGH','IJKL','MNOP']);
 fs.writeFileSync(path.join(dir,'expected.json'),JSON.stringify(expected));
@@ -30,6 +33,10 @@ for name,e in expected.items():
  if name=='complete':
   for value in ['Éléonore D’Œuvre','Mary Walsh','Louise Merle','Paul Morris','cicatrice','Estomac de fer','Toucher du scorpion','Réveil avec la fraîcheur du soir','Un carnet, une montre et une sacoche.','Pistolets','marché noir','Sorcellerie du sang · 3','Alice Couverture','DOCUMENT_MASQUE_ARCHIVES','RISQUE_MASQUE_EMPLOYEUR']:
    assert value in alltext,(name,'Valeur absente',value)
+ if name=='hecata':
+  for value in ['Hecata','Néant','Don de vie factice','Guide du joueur']:assert value in alltext,(name,value)
+ if name=='lasombra':assert 'Lasombra' in alltext and 'Vision du Néant' in alltext
+ if name=='banu':assert 'Banu Haqim' in alltext and 'Le rituel initial' in alltext
  if name=='long':
   for value in ['FIN_APPARENCE','FIN_NOTES','FIN_ATTACHE']:assert value in alltext,('Texte perdu',value)
  if name=='lamproie':assert 'Puissance du sang finale : 2' in alltext and 'Humanité finale : 6' in alltext
@@ -45,5 +52,5 @@ for name,e in expected.items():
      r=fitz.Rect(s['bbox']);assert r.x0>=44 and r.x1<=p.rect.width-43,(name,'Texte hors largeur',s['text'])
      assert r.y0>25 and r.y1<820,(name,'Texte hors hauteur',s['text'])
  assert circles==e['points'],(name,'Scores mal représentés',circles,e['points'])
-print('Dossier PDF : 5 personnages contrôlés, scores finaux, données, textes longs, formats et débordements vérifiés.')
+print('Dossier PDF : 8 personnages contrôlés, scores finaux, données, textes longs, formats et débordements vérifiés.')
 `,dir],{encoding:'utf8'});if(check.status!==0)throw Error(check.stdout+check.stderr);console.log(check.stdout.trim());if(process.env.DOSSIER_QA_DIR)console.log(dir);else fs.rmSync(dir,{recursive:true,force:true});

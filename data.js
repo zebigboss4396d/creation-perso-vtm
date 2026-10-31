@@ -1,3 +1,5 @@
+import {EXTRA_CLANS,EXTRA_GUIDES,EXTRA_POWERS} from './clan-extra.js';
+export {CEREMONIES} from './clan-extra.js';
 export const STEPS=[["Votre personnage", "Le dossier humain", "I"], ["La nouvelle existence", "Le sang et le sire", "II"], ["Les attributs", "Vos capacités naturelles", "III"], ["Les compétences", "Ce que la vie vous a appris", "IV"], ["Les spécialités", "Votre domaine de prédilection", "V"], ["Les disciplines", "Les dons du sang", "VI"], ["Se nourrir", "Votre manière de chasser", "VII"], ["Les pouvoirs", "Ce que vous pouvez accomplir", "VIII"], ["Avantages & handicaps", "Vos moyens et vos difficultés", "IX"], ["Liens & objectifs", "Ce qui vous retient à l’humanité", "X"], ["Le Masque", "Votre identité parmi les mortels", "XI"], ["Votre fiche", "Prêt pour la première nuit", "XII"]];
 export const ATTR=[['force','Force','Physique','Soulever, frapper, forcer une porte.'],['dexterite','Dextérité','Physique','Agir avec précision et se déplacer avec agilité.'],['vigueur','Vigueur','Physique','Endurer les blessures et les efforts.'],['charisme','Charisme','Social','Attirer la sympathie et inspirer confiance.'],['manipulation','Manipulation','Social','Amener quelqu’un à agir selon vos intentions.'],['sangFroid','Sang-froid','Social','Garder votre calme sous la pression.'],['intelligence','Intelligence','Mental','Raisonner, comprendre et mobiliser des connaissances.'],['astuce','Astuce','Mental','Réagir vite et saisir une situation sur le moment.'],['resolution','Résolution','Mental','Maintenir votre attention et tenir bon.']];
 export const SKILLS=[
@@ -138,3 +140,8 @@ const baneSituations={
  ventrue:{when:'Lorsqu’il boit le sang d’un mortel hors de sa catégorie de proies. Cette catégorie est arrêtée avec le conteur et demeure une restriction réelle pour se nourrir.',example:'Le personnage ne peut normalement se nourrir que de militaires ayant servi au front. S’il boit sur un civil qui n’a jamais combattu, il doit dépenser 1 point de Volonté pour garder ce sang. La faim seule ne supprime pas sa restriction.'}
 };
 for(const [id,situation] of Object.entries(baneSituations))Object.assign(CLAN_GUIDE[id],situation);
+
+Object.assign(CLANS,EXTRA_CLANS);Object.assign(CLAN_GUIDE,EXTRA_GUIDES);DISC.neant=['Néant','Manipuler les ombres, la mort et les esprits.','Guide du joueur, 83–90'];POWERS.push(...EXTRA_POWERS);
+
+// Pages précises des historiques et améliorations décrits en page 9.
+for(const [id,page]of Object.entries({influence:'186–188',masque:'188–189',mawla:'189–190',refuge:'190–191',armurerie:'190',cellule:'190',harceleur:'193'}))TRAITS.find(t=>t.id===id).page=page;
