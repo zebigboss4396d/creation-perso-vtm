@@ -35,6 +35,40 @@ previous.identity.appearance='Apparence modifiée après l’Étreinte';previous
 const preserved=importJSON(previous).state;
 ok(preserved.identity.appearance===previous.identity.appearance&&preserved.identity.possessions===previous.identity.possessions&&preserved.connections[0].name==='Autre personne','Les corrections manuelles ne sont pas écrasées par la migration');
 
+// Correspondances du JSON humain actuel : conflits, dates, relations et textes longs.
+const currentHuman={...human,fields:{...human.fields,surnom:'Al',genre:'Féminin',age:'12/05/1909',professionSecondaire:'Chanteuse le samedi',savoirfaire:'Réparer des radios',niveauVie:'Revenus modestes',revenus:'Salaire hebdomadaire',logement:'Une chambre chez Rose',influence:'Mécanicienne réputée',secret:'Secret humain',origines:'Une famille de dockers',ambition:'Acheter mon atelier',desir:'Retrouver mon carnet',nouveauChamp:'Préservé sans correspondance'},convictions:[{...human.convictions[0],lien:'Autre',lienAutre:'Le voisin qui m’a élevée',age:'52 ans',fonction:'Docker',description:'Manteau râpé',origine:'Une promesse ancienne',incarne:'Texte complet. '.repeat(4000)}],relations:[{nom:'Rose',age:'47 ans',fonction:'Logeuse',role:'Autre',roleAutre:'Ancienne camarade',description:'Une femme énergique',appui:'Hébergement temporaire',rencontre:'Lors d’une grève'},{nom:'',role:'Choisir…'}]};
+const freshHuman=importJSON(currentHuman);
+ok(freshHuman.state.identity.nickname==='Al'&&freshHuman.state.identity.gender==='Féminin','Surnom et genre importés');
+ok(freshHuman.state.identity.birth==='12/05/1909'&&freshHuman.state.identity.age==='','La date du champ âge devient une naissance, sans âge inventé');
+ok(freshHuman.state.identity.profession.includes('Chanteuse le samedi'),'Activité secondaire reprise avec la profession');
+ok(freshHuman.state.ambition===currentHuman.fields.ambition&&freshHuman.state.desire===currentHuman.fields.desir,'Objectifs repris');
+for(const value of ['Le voisin qui m’a élevée','52 ans','Docker','Manteau râpé','Une promesse ancienne',currentHuman.convictions[0].incarne])ok(Object.values(freshHuman.state.connections[0]).some(x=>typeof x==='string'&&x.includes(value)),'Détail de l’Attache conservé : '+value.slice(0,40));
+ok(freshHuman.state.relations.length===1&&freshHuman.state.relations[0].relation.includes('Ancienne camarade')&&freshHuman.state.relations[0].support==='Hébergement temporaire','Autres relations complètes, fiche vide ignorée');
+ok(freshHuman.references.some(x=>x.key==='revenus')&&freshHuman.references.some(x=>x.key==='logement')&&freshHuman.unmatched.includes('nouveauChamp'),'Moyens en référence, champs inconnus signalés');
+ok(freshHuman.state.night.refuge===''&&freshHuman.state.traits.length===0,'Logement et train de vie ne donnent ni refuge nocturne ni points');
+const exactReload=importJSON(JSON.parse(JSON.stringify(freshHuman.state))).state;
+ok(JSON.stringify(exactReload.connections)===JSON.stringify(freshHuman.state.connections)&&JSON.stringify(exactReload.relations)===JSON.stringify(freshHuman.state.relations),'Textes composés de plus de 30 000 caractères et relations restent identiques après recharge');
+const inProgress=fixture('toreador');inProgress.artwork.background='';inProgress.identity.appearance='Apparence corrigée';inProgress.night.refuge='Refuge choisi après l’Étreinte';inProgress.mask.name='Identité nocturne';
+const protectedImport=importJSON(currentHuman,{current:inProgress});
+for(const key of ['embrace','attributes','skills','specialties','disciplines','powers','predator','traits','night','mask'])ok(JSON.stringify(protectedImport.state[key])===JSON.stringify(inProgress[key]),'L’import de background préserve '+key);
+ok(protectedImport.state.identity.name===inProgress.identity.name&&protectedImport.state.identity.appearance==='Apparence corrigée'&&protectedImport.state.identity.nickname==='Al','Les champs vides sont complétés, les corrections conservées');
+ok(protectedImport.report.some(x=>x.path==='identity.name'&&x.status==='kept'),'Le conflit est explicite dans le rapport');
+ok(inProgress.identity.nickname===''&&inProgress.originalBackground===null,'La préparation de l’aperçu ne modifie pas la fiche courante');
+const overwriteImport=importJSON(currentHuman,{current:inProgress,overwrite:true});
+ok(overwriteImport.state.identity.name===currentHuman.fields.nom&&overwriteImport.state.connections[0].name==='Paul'&&overwriteImport.state.relations[0].name==='Rose','Remplacement explicite des valeurs et des listes humaines');
+ok(overwriteImport.state.embrace.clan==='toreador'&&overwriteImport.state.mask.name==='Identité nocturne','Remplacer les informations humaines conserve les choix vampiriques');
+ok(importJSON({fields:{nom:'Alice Test',concept:''}},{current:inProgress,overwrite:true}).state.identity.concept===inProgress.identity.concept,'Les champs source vides n’effacent pas la fiche');
+const trap=importJSON({fields:{concept:'Personnage sans nom'},relations:[{nom:'Le PNJ'}],illustration:{prompt:'Nom : Faux',name:'Nom du générateur'}}).state;
+ok(trap.identity.name===''&&trap.relations[0].name==='Le PNJ','Un PNJ ou un champ de générateur ne fournit jamais le nom du PJ');
+ok(importJSON({data:currentHuman}).state.connections[0].name==='Paul','Enveloppe data du JSON acceptée');
+ok(importJSON({fields:{nom:'Test',age:'31 ans'}}).state.identity.age==='31 ans','Âge numérique conservé comme âge');
+assert.throws(()=>importJSON({autre:'fichier sans correspondance'}));checks++;
+ok(importJSON({background:{identity:{name:'Alice enveloppée',profession:'Chanteuse'},connections:[{conviction:'Tenir parole',name:'Joe',relation:'Mon frère'}]}}).state.identity.name==='Alice enveloppée','Anciennes enveloppes de background sans fields encore acceptées');
+const arraySource={fields:{nom:'Test'},unknown:Array.from({length:1005},(_,i)=>i)};
+ok(importJSON(arraySource).state.originalBackground.unknown.length===1005,'Le dossier original n’est pas tronqué à 1000 éléments');
+
+const oldLinks=blank();oldLinks.originalBackground=currentHuman;oldLinks.connections=[{conviction:currentHuman.convictions[0].principe,name:'Paul',relation:'Lien modifié par le joueur'}];const repairedLinks=importJSON(oldLinks).state;
+ok(repairedLinks.connections[0].relation==='Lien modifié par le joueur'&&repairedLinks.connections[0].occupation==='Docker'&&repairedLinks.connections[0].origin==='Une promesse ancienne','Migration : détails d’Attache récupérés sans écraser le lien réécrit');
 // Prédation : les gains sont calculés à partir des choix, sans modifier les achats de base.
 function hunt(state,id,di=0,si=0){const p=PREDATORS[id];state.predator={...state.predator,mode:'defined',style:id,discipline:predatorDisciplines({...state,predator:{...state.predator,mode:'defined',style:id}})[di],specialty:p.specialties[si][0],specialtyDetail:'Un domaine précis',description:'Un lieu et des relations définis avec le conteur.',flaw:p.flaws?.[0][0]||'',fame:1,osirisFlaws:id==='osiris'?[{id:'ennemi',level:2,detail:'Un groupe mortel hostile.'}]:[]};return state;}
 function completePowers(state){for(const d of disciplineIds(state)){state.powers[d]||=[];for(let i=state.powers[d].length;i<score(state,d);i++){const p=POWERS.find(x=>x.disc===d&&x.level<=i+1&&powerAllowed(state,x)&&!state.powers[d].includes(x.id));assert.ok(p,'Un pouvoir disponible : '+d);state.powers[d].push(p.id);}}if(score(state,'sorcellerie'))state.ritual=RITUALS[0][0];}

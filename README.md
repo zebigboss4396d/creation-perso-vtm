@@ -77,3 +77,11 @@ Néant inclut ses pouvoirs 1 à 3, ses risques de Flétrissures, ses limites de 
 ## Comprendre les points d’avantages et de handicaps
 
 La page 9 indique l’effet concret du niveau choisi et propose un comparatif repliable pour chaque trait à plusieurs niveaux. Les atouts à prix fixe sont explicitement signalés. Les Alliés détaillent séparément Efficacité et Fiabilité, puis leur somme. Chaque choix conserve son explication dans le panier et dans le PDF. Les explications des 67 traits sont reformulées à partir du livre de base français p. 179–194 dans `./trait-guide.js`. La valeur est le coût total du trait ; les handicaps ne donnent pas de points d’avantages supplémentaires.
+
+## Import du dossier de background humain
+
+L’import utilise le format `schemaVersion: 1`, `fields`, `convictions`, `relations` du créateur de background. Il reprend nom, surnom, genre, âge ou naissance, concept, profession et activité secondaire, apparence en trois parties, équipement et objet précieux, notes, objectifs, couples Conviction/Attache avec tous leurs détails et autres relations. Une date saisie dans « âge » devient une date de naissance ; aucun âge n’est calculé sans date d’Étreinte précise.
+
+L’aperçu compare les valeurs source et destination. Par défaut, le background complète les champs vides de la fiche ouverte. Le remplacement des données humaines remplies est une option explicite ; les champs source vides n’effacent jamais une valeur. Les listes de Convictions/Attaches et de relations sont remplacées ensemble lorsque cette option est choisie. Une sauvegarde native restaure toujours la fiche complète.
+
+Les parcours, expériences, revenus, logement et difficultés sont consultables comme références aux étapes concernées, sans créer de compétences, points d’avantages ou refuge nocturne. Les relations sont modifiables à l’étape 10 et figurent dans le PDF. Le JSON original entier reste exporté, y compris ses champs inconnus. Le lecteur ne parcourt pas les PNJ ni les prompts pour deviner l’identité du PJ.
